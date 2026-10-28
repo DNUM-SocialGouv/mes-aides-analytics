@@ -16,6 +16,10 @@ const ResponsiveBar = dynamic(
 
 const periods = DateRange.getPeriods()
 
+// Matomo calcule les plages de dates à la demande : la première requête sur
+// une période peut prendre plusieurs minutes avant d'être mise en cache
+const PAGES_STATS_TIMEOUT_MS = 180000
+
 class PagesVisits extends Component {
   constructor(props) {
     super(props)
@@ -26,6 +30,7 @@ class PagesVisits extends Component {
       sortAscending: false,
       showGraph: false,
       loading: true,
+      error: false,
     }
   }
 
@@ -41,9 +46,19 @@ class PagesVisits extends Component {
   }
 
   async fetchPagesStats() {
-    this.setState({ loading: true })
+    this.setState({ loading: true, error: false })
 
-    const pagesStats = await Fetch.getJSON(this.getDataUrl())
+    let pagesStats
+    try {
+      pagesStats = await Fetch.getJSON(
+        this.getDataUrl(),
+        PAGES_STATS_TIMEOUT_MS,
+      )
+    } catch (error) {
+      console.error(error)
+      this.setState({ error: true, loading: false })
+      return
+    }
 
     for (const element of pagesStats) {
       if (element.label == "simulation") {
@@ -122,6 +137,17 @@ class PagesVisits extends Component {
   }
 
   render() {
+    if (this.state.error) {
+      return (
+        <>
+          <p role="alert">
+            Les statistiques de visite n'ont pas pu être chargées.
+          </p>
+          <button onClick={() => this.fetchPagesStats()}>Réessayer</button>
+        </>
+      )
+    }
+
     if (this.state.loading) {
       return <Loader />
     }

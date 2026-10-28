@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 
+import Fetch from "../services/fetch.js"
 import TableService from "../services/tableService.js"
 
 const useFetchInstitutionsData = () => {
@@ -8,13 +9,7 @@ const useFetchInstitutionsData = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch(process.env.aidesJeunesStatisticsURL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok")
-        }
-        return response.json()
-      })
+    Fetch.getJSON(process.env.aidesJeunesStatisticsURL)
       .then((data) => {
         setDataService(new TableService(data.institutions))
         setLoading(false)

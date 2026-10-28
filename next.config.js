@@ -15,7 +15,7 @@ const configuration = {
     // services/usage-statistics-2021-2024.json : stats.data.gouv.fr ne
     // renvoie plus d'en-têtes CORS et n'est plus appelable depuis le navigateur.
     usageStatisticsURL:
-      "https://stats.beta.gouv.fr/index.php?date=2024-08-01,yesterday&expanded=1&filter_limit=100&force_api_session=1&format=JSON&format_metrics=1&idSite=63&method=API.get&module=API&period=month&token_auth=anonymous",
+      "https://stats.beta.gouv.fr/index.php?date=2024-08-01,yesterday&format=JSON&idSite=63&method=VisitsSummary.get&module=API&period=month&token_auth=anonymous",
     observatoryURL:
       "https://observatoire.numerique.gouv.fr/Demarches/3135?view-mode=statistics&date-debut=2020-07-01&date-fin=",
     aidesJeunesStatisticsURL:
