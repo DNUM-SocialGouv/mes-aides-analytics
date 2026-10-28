@@ -40,4 +40,4 @@ L'intégration continue est définie dans [ci.yml](.github/workflows/ci.yml).
 
 Le déploiement continu est défini dans [cd.yml](.github/workflows/cd.yml).
 
-Sur chaque push sur la branche `main`, le site est buildé puis [déployé en production](https://betagouv.github.io/mes-aides-analytics/).
+Sur chaque push sur la branche `main`, le site est buildé puis [déployé en production](https://dnum-socialgouv.github.io/mes-aides-analytics/).

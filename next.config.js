@@ -6,7 +6,7 @@ const configuration = {
   output: "export",
   devIndicators: false,
   assetPrefix: isProduction
-    ? "https://betagouv.github.io/mes-aides-analytics/"
+    ? "https://dnum-socialgouv.github.io/mes-aides-analytics/"
     : undefined,
   basePath: isProduction ? "/mes-aides-analytics" : undefined,
   env: {
