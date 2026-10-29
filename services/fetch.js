@@ -1,9 +1,14 @@
 import { EventTypeCategoryMapping } from "./config.js"
 import usageStatistics2021To2024 from "./usage-statistics-2021-2024.json"
 
+// Sans délai maximal, un appel qui ne répond pas laisse la page sur le loader
+const REQUEST_TIMEOUT_MS = 30000
+
 export default class Fetch {
-  static async getJSON(url) {
-    const response = await fetch(url)
+  static async getJSON(url, timeoutMs = REQUEST_TIMEOUT_MS) {
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(timeoutMs),
+    })
     if (!response.ok) {
       throw new Error(`${url} a répondu ${response.status}`)
     }

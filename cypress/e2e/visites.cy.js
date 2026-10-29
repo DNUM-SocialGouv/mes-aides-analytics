@@ -18,12 +18,8 @@ describe("Visites Page", () => {
   })
 
   it("fetches data and populates table", () => {
-    cy.checkTable(
-      "visits-table",
-      0,
-      "/individu/demandeur/ressources/montants/revenusActivite",
-    )
-    cy.checkTable("visits-table", 0, "426")
-    cy.checkTable("visits-table", 0, "47")
+    cy.checkTable("visits-table", 0, "/individu/demandeur/date_naissance")
+    cy.checkTable("visits-table", 0, "1174")
+    cy.checkTable("visits-table", 0, "313")
   })
 })
