@@ -56,7 +56,7 @@ class PagesVisits extends Component {
       )
     } catch (error) {
       console.error(error)
-      this.setState({ error: true, loading: false })
+      this.setState({ error: true, loading: false, pagesStats: [] })
       return
     }
 
@@ -64,8 +64,7 @@ class PagesVisits extends Component {
       if (element.label == "simulation") {
         const result = []
         this.flatten(result, element.subtable)
-        this.setState(
-          { pagesStats: result },
+        this.setState({ pagesStats: result }, () =>
           this.sortTable("exit_nb_visits", false),
         )
       }
@@ -137,19 +136,10 @@ class PagesVisits extends Component {
   }
 
   render() {
-    if (this.state.error) {
-      return (
-        <>
-          <p role="alert">
-            Les statistiques de visite n'ont pas pu être chargées.
-          </p>
-          <button onClick={() => this.fetchPagesStats()}>Réessayer</button>
-        </>
-      )
-    }
-
     if (this.state.loading) {
-      return <Loader />
+      return (
+        <Loader message="Chargement des données... Le premier chargement d'une période peut prendre quelques minutes." />
+      )
     }
 
     return (
@@ -179,6 +169,15 @@ class PagesVisits extends Component {
             </div>
           </div>
         </div>
+
+        {this.state.error && (
+          <div>
+            <p role="alert" data-testid="pages-error">
+              Les statistiques de visite n'ont pas pu être chargées.
+            </p>
+            <button onClick={() => this.fetchPagesStats()}>Réessayer</button>
+          </div>
+        )}
 
         <div className="flex flex-gap">
           {this.state.showGraph &&
