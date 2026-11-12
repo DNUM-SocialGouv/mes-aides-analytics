@@ -1,12 +1,32 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: saturday
+      day: "monday"
+    # Laisse 7 jours aux nouvelles versions avant de les proposer
+    # (ne s'applique pas aux alertes de sécurité).
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+    groups:
+      # Une PR par semaine pour toutes les alertes de sécurité.
+      npm-security:
+        applies-to: security-updates
+        patterns: ["*"]
+      # Une PR par semaine pour minor + patch. Les majeures restent
+      # en PR individuelles (breaking changes à traiter une par une).
+      npm-minor-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      github-actions:
+        patterns: ["*"]
